@@ -2,7 +2,7 @@
 
 internal class ConcreteFacebookGroupMediator : IFacebookGroupMediator
 {
-    private List<User> _usersList = new List<User>();
+    private readonly List<User> _usersList = [];
     public void RegisterUser(User user)
     {
         _usersList.Add(user);
@@ -10,13 +10,9 @@ internal class ConcreteFacebookGroupMediator : IFacebookGroupMediator
         
     public void SendMessage(string message, User user)
     {
-        foreach (var u in _usersList)
+        foreach (var u in _usersList.Where(u => u != user))
         {
-            // message should not be received by the user sending it
-            if (u != user)
-            {
-                u.Receive(message);
-            }
+            u.Receive(message);
         }
     }
 }
